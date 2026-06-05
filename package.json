@@ -1,0 +1,10 @@
+{
+  "name": "voice-game-3d",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Beginner-friendly browser game with Capacitor Android sync scripts",
+  "scripts": {
+    "build:web": "node scripts/build-web.mjs",
+    "android": "npm run build:web && npx cap sync android"
+  }
+}

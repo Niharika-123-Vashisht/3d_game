@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, maximum-scale=1"
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#0f2018" />
+    <title>FunRun Rush 🚀</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section id="splash-screen" class="boot-screen">
+      <div class="boot-card splash-gradient">
+        <h1 class="boot-title">FunRun Rush 🚀</h1>
+        <p class="boot-subtitle">Swipe, Run &amp; Learn</p>
+      </div>
+    </section>
+
+    <section id="loading-screen" class="boot-screen hidden"></section>
+    <section id="npc-scene-screen" class="boot-screen hidden"></section>
+
+    <main id="main-app" class="app hidden">
+      <section id="start-screen" class="card screen" aria-label="Start screen">
+        <h1 class="title">FunRun Rush 🚀</h1>
+        <p class="subtitle">A fast jungle runner with swipe, dodge, and learn action.</p>
+        <div class="menu-actions">
+          <button id="play-btn" class="button" type="button">Play</button>
+          <button id="open-characters-button" class="button button--ghost" type="button">Character</button>
+          <button id="open-settings-button" class="button button--ghost" type="button">Settings</button>
+        </div>
+      </section>
+
+      <section id="character-screen" class="card screen hidden" aria-label="Character selection screen">
+        <h2 class="title">Choose Character</h2>
+        <p class="subtitle">Unlock new friends with score points or by watching an ad.</p>
+        <div id="character-list" class="character-list" aria-label="Character list"></div>
+        <p id="character-progress" class="subtitle">Best score: 0</p>
+        <button id="back-to-start-button" class="button button--ghost" type="button">Back</button>
+      </section>
+
+      <section id="settings-screen" class="card screen hidden" aria-label="Settings screen">
+        <h2 class="title">Settings</h2>
+        <p class="subtitle">Tune sound, music, and graphics for your device.</p>
+        <div class="settings-list">
+          <div class="settings-row">
+            <div>
+              <p class="settings-label">Sound</p>
+              <p class="settings-hint">Effects like jump, hit, and footsteps.</p>
+            </div>
+            <button id="toggle-sound-button" class="button button--ghost settings-toggle" type="button">ON</button>
+          </div>
+          <div class="settings-row">
+            <div>
+              <p class="settings-label">Music</p>
+              <p class="settings-hint">Ambient jungle background layer.</p>
+            </div>
+            <button id="toggle-music-button" class="button button--ghost settings-toggle" type="button">ON</button>
+          </div>
+          <div class="settings-row">
+            <div>
+              <p class="settings-label">Graphics</p>
+              <p class="settings-hint">Choose smoother or lighter visual effects.</p>
+            </div>
+            <button id="toggle-graphics-button" class="button button--ghost settings-toggle" type="button">HIGH</button>
+          </div>
+        </div>
+        <button id="settings-back-button" class="button button--ghost" type="button">Back</button>
+      </section>
+
+      <section id="tutorial-screen" class="card screen hidden" aria-label="Tutorial screen">
+        <h2 class="title">Tutorial</h2>
+        <p class="subtitle tutorial-text">Say: JUMP, SWIM, FIGHT</p>
+
+        <div class="demo-area" aria-label="Jump demo animation">
+          <div class="demo-character">:)</div>
+          <div class="demo-ground"></div>
+        </div>
+
+        <button id="start-game-button" class="button" type="button">Start Game</button>
+      </section>
+
+      <section id="game-screen" class="card screen hidden" aria-label="Game screen">
+        <div class="minimal-hud ui-layer" aria-label="Game HUD">
+          <p class="score-mini">Score: <span id="score-value">0</span></p>
+          <p class="score-mini">⭐ <span id="star-value">0</span></p>
+          <button id="pause-button" class="button button--ghost pause-btn" type="button">Pause</button>
+        </div>
+
+        <div id="learning-command-overlay" class="learning-command-overlay ui-layer hidden" aria-live="polite">
+          <span id="learning-command-text">JUMP</span>
+        </div>
+
+        <div class="game-hud minimal-overlay ui-layer">
+          <p id="magnet-status" class="magnet-status hidden">Flying <span id="magnet-time">4.2</span>s</p>
+          <p id="reward-text" class="reward-text hidden">Power!</p>
+          <p id="near-miss-text" class="reward-text near-miss-text hidden">Near Miss +5</p>
+          <p id="combo-text" class="combo-text hidden">Combo x2</p>
+        </div>
+
+        <div id="speed-vignette" class="speed-vignette ui-layer"></div>
+
+        <div id="pause-overlay" class="pause-overlay ui-layer hidden" aria-label="Pause menu">
+          <div class="pause-card">
+            <h2 class="title pause-title">Paused</h2>
+            <button id="pause-resume-button" class="button" type="button">Resume</button>
+            <button id="pause-restart-button" class="button button--ghost" type="button">Restart</button>
+            <button id="pause-home-button" class="button button--ghost" type="button">Home</button>
+          </div>
+        </div>
+
+        <div id="game-over-popup" class="game-over-popup ui-layer hidden" aria-label="Game over popup">
+          <h2 id="game-over-message" class="game-over">Game Over</h2>
+          <p class="game-over-score">Score: <span id="final-score-value">0</span></p>
+          <button id="restart-button" class="button restart-button" type="button">Play Again</button>
+        </div>
+
+        <canvas
+          id="game-canvas"
+          class="game-canvas"
+          width="620"
+          height="320"
+          aria-label="Game canvas"
+        ></canvas>
+
+        <div id="dev-diagnostics" class="dev-diagnostics hidden" aria-hidden="true">
+          <pre id="dev-diagnostics-text">Diagnostics</pre>
+        </div>
+
+        <div class="internal-ui hidden">
+          <p class="score-label">Character: <span id="selected-character-name">Buddy</span></p>
+          <p class="score-label">Instruction: <span id="instruction-text">JUMP</span></p>
+          <p id="feedback-text" class="score-label">Ready</p>
+          <p id="star-float-text" class="star-float-text hidden">+1 ⭐</p>
+          <p id="level-up-text" class="level-up hidden">Level Up!</p>
+          <div id="ad-screen" class="ad-screen hidden" aria-label="Ad simulation">
+            <p id="ad-message" class="score-label">Ad</p>
+            <button id="watch-ad-button" class="button" type="button">Watch Ad</button>
+            <button id="close-ad-button" class="button button--ghost" type="button">Close</button>
+          </div>
+          <button id="home-button" class="button button--ghost" type="button">Home</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="./libs/three.min.js"></script>
+    <script src="./libs/GLTFLoader.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>
